@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.dzek69.indooratlas;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,7 +11,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.bridge.JavaScriptModule;
 
-public class IndoorAtlasPackage implements ReactPackage {
+public class RNIndoorAtlasPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Collections.emptyList();

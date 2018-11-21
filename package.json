@@ -27,5 +27,11 @@
     "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
     "must": "^0.13.4"
-  }
+  },
+  "peerDependencies": {
+    "react-native": ">=0.57.0"
+  },
+  "keywords": [
+    "react-native"
+  ]
 }

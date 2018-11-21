@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.dzek69.indooratlas;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,13 +19,13 @@ import com.indooratlas.android.sdk.IALocationManager;
 import com.indooratlas.android.sdk.IALocationRequest;
 import com.indooratlas.android.sdk.IARegion;
 
-public class IndoorAtlasModule extends ReactContextBaseJavaModule {
+public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
     // @TODO expose status constants
     private IALocationManager locationManager;
     private IALocationListener locationListener;
     private boolean listening;
 
-    public IndoorAtlasModule(ReactApplicationContext reactContext) {
+    public RNIndoorAtlasModule(ReactApplicationContext reactContext) {
         super(reactContext);
     }
 
