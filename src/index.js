@@ -2,7 +2,7 @@ import { NativeModules, NativeEventEmitter } from 'react-native';
 
 import eventsInitializer from "./NativeEventsInitalizer";
 
-const { IndoorAtlas } = NativeModules;
+const { IndoorAtlas: NativeIndoorAtlas } = NativeModules;
 
 const NOT_FOUND = -1;
 
@@ -16,7 +16,7 @@ class IndoorAtlas {
         this.on = this.addListener;
         this.off = this.removeListener;
 
-        const indoorAtlasEventEmitter = new NativeEventEmitter(IndoorAtlas);
+        const indoorAtlasEventEmitter = new NativeEventEmitter(NativeIndoorAtlas);
         Object.keys(this._listeners).forEach(eventName => {
             const propertyName = "_" + eventName + "Subscription";
             const listener = this._handleIndoorAtlasEvent.bind(this, eventName);
@@ -74,4 +74,4 @@ class IndoorAtlas {
     }
 }
 
-export default IndoorAtlas;
+export default NativeIndoorAtlas;
