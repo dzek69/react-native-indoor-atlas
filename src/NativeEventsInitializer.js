@@ -1,4 +1,4 @@
-import { NativeModules } from 'react-native';
+import { NativeModules } from "react-native";
 
 const { IndoorAtlas } = NativeModules;
 
@@ -22,6 +22,6 @@ class NativeEventsInitializer {
     }
 }
 
-const instance = NativeEventsInitializer();
+const instance = new NativeEventsInitializer();
 
 export default instance;

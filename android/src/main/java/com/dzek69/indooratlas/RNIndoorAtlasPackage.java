@@ -20,7 +20,7 @@ public class RNIndoorAtlasPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
-        modules.add(new IndoorAtlasModule(reactContext));
+        modules.add(new RNIndoorAtlasModule(reactContext));
         return modules;
     }
 }

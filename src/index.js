@@ -1,6 +1,6 @@
-import { NativeModules, NativeEventEmitter } from 'react-native';
+import { NativeModules, NativeEventEmitter } from "react-native";
 
-import eventsInitializer from "./NativeEventsInitalizer";
+import eventsInitializer from "./NativeEventsInitializer";
 
 const { IndoorAtlas: NativeIndoorAtlas } = NativeModules;
 
@@ -11,16 +11,18 @@ class IndoorAtlas {
         this._listeners = {
             locationChanged: [],
             statusChanged: [],
+            // debug: [],
         };
 
         this.on = this.addListener;
         this.off = this.removeListener;
 
         const indoorAtlasEventEmitter = new NativeEventEmitter(NativeIndoorAtlas);
+
         Object.keys(this._listeners).forEach(eventName => {
             const propertyName = "_" + eventName + "Subscription";
             const listener = this._handleIndoorAtlasEvent.bind(this, eventName);
-            this[propertyName] = indoorAtlasEventEmitter.addListener(listener);
+            this[propertyName] = indoorAtlasEventEmitter.addListener(eventName, listener);
         });
     }
 
@@ -69,9 +71,9 @@ class IndoorAtlas {
             this[subscriberPropertyName].remove();
 
             eventsInitializer.decrease(eventArray.length);
-            eventArray.length = 0;
+            eventArray.length = 0; // eslint-disable-line no-param-reassign
         });
     }
 }
 
-export default NativeIndoorAtlas;
+export default IndoorAtlas;

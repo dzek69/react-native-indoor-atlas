@@ -35,21 +35,32 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
             .emit(eventName, params);
     }
 
+    private void sendDebugMessage(String message) {
+        WritableMap params = Arguments.createMap();
+        params.putString("message", message);
+        sendEvent(getReactApplicationContext(), "debug", params);
+    }
+
     @ReactMethod
     public void listen() {
+        // sendDebugMessage("listen()");
         if (listening) {
+            // sendDebugMessage("already listening");
             return;
         }
+        // sendDebugMessage("was not listening");
 
         listening = true;
 
         Runnable task = new Runnable() {
             @Override
             public void run() {
+                // sendDebugMessage("listenrunnable started");
                 locationManager = IALocationManager.create(getReactApplicationContext());
                 locationListener = new IALocationListener() {
                     @Override
                     public void onLocationChanged(IALocation location) {
+                        // sendDebugMessage("changed");
                         WritableMap params = Arguments.createMap();
                         params.putDouble("lat", location.getLatitude());
                         params.putDouble("lng", location.getLongitude());
@@ -66,7 +77,7 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                         params.putDouble("status", code);
                         sendEvent(getReactApplicationContext(), "statusChanged", params);
                     }
-                }
+                };
 
                 locationManager.requestLocationUpdates(
                     IALocationRequest.create(), locationListener
@@ -76,6 +87,7 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
         getCurrentActivity().runOnUiThread(task);
     }
 
+    @ReactMethod
     public void stop() {
         if (!listening) {
             return;
