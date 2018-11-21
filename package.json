@@ -1,6 +1,6 @@
 {
   "name": "react-native-indoor-atlas",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "src/index.js",
   "repository": "https://github.com/dzek69/react-native-indoor-atlas.git",
   "author": "Jacek Nowacki @dzek69 <git-public@dzek.eu>",
@@ -32,6 +32,7 @@
     "react-native": ">=0.57.0"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "indoor-atlas"
   ]
 }
