@@ -6,7 +6,13 @@ const { IndoorAtlas: NativeIndoorAtlas } = NativeModules;
 
 const NOT_FOUND = -1;
 
+/**
+ * Indoor Atlas events handling class
+ */
 class IndoorAtlas {
+    /**
+     * Constructs new instance. Takes no arguments.
+     */
     constructor() {
         this._listeners = {
             locationChanged: [],
@@ -35,6 +41,12 @@ class IndoorAtlas {
         array.forEach(listener => listener(data));
     }
 
+    /**
+     * Registers new event listener
+     *
+     * @param {string} eventName
+     * @param {function} listener
+     */
     addListener(eventName, listener) {
         const array = this._listeners[eventName];
         if (!array) {
@@ -51,6 +63,12 @@ class IndoorAtlas {
         eventsInitializer.increase();
     }
 
+    /**
+     * Unregisters event listener
+     *
+     * @param {string} eventName
+     * @param {function} listener
+     */
     removeListener(eventName, listener) {
         const array = this._listeners[eventName];
         if (!array) {
@@ -65,6 +83,9 @@ class IndoorAtlas {
         eventsInitializer.decrease();
     }
 
+    /**
+     * Destroys instance. Unregisters all listeners automatically.
+     */
     destroy() {
         Object.entries(this._listeners).forEach(([eventName, eventArray]) => {
             const subscriberPropertyName = "_" + eventName + "Subscription";
