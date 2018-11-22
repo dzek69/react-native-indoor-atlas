@@ -6,6 +6,28 @@ const { IndoorAtlas: NativeIndoorAtlas } = NativeModules;
 
 const NOT_FOUND = -1;
 
+const LOCATION_CHANGED = "locationChanged";
+const STATUS_CHANGED = "statusChanged";
+
+/**
+ * @typedef {string} EventName
+ * Name of the event
+ */
+
+/**
+ * @typedef {Object} EventsList
+ * @property {EventName} LOCATION_CHANGED - user location changed evenet
+ * @property {EventName} STATUS_CHANGED - IA connection status changed evenet
+ */
+
+/**
+ * @type {EventsList}
+ */
+const EVENTS = {
+    LOCATION_CHANGED,
+    STATUS_CHANGED,
+};
+
 /**
  * Indoor Atlas events handling class
  */
@@ -44,8 +66,9 @@ class IndoorAtlas {
     /**
      * Registers new event listener
      *
-     * @param {string} eventName
+     * @param {EventName} eventName
      * @param {function} listener
+     * @returns {void}
      */
     addListener(eventName, listener) {
         const array = this._listeners[eventName];
@@ -66,8 +89,9 @@ class IndoorAtlas {
     /**
      * Unregisters event listener
      *
-     * @param {string} eventName
+     * @param {EventName} eventName
      * @param {function} listener
+     * @returns {void}
      */
     removeListener(eventName, listener) {
         const array = this._listeners[eventName];
@@ -85,6 +109,8 @@ class IndoorAtlas {
 
     /**
      * Destroys instance. Unregisters all listeners automatically.
+     *
+     * @returns {void}
      */
     destroy() {
         Object.entries(this._listeners).forEach(([eventName, eventArray]) => {
@@ -98,3 +124,6 @@ class IndoorAtlas {
 }
 
 export default IndoorAtlas;
+export {
+    EVENTS,
+};
