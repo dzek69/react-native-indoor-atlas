@@ -36,7 +36,7 @@ class IndoorAtlas {
      * Constructs new instance. Takes no arguments.
      */
     constructor() {
-        this._listeners = {
+        this._listeners = { // @todo use EVENTS in a loop to define this
             locationChanged: [],
             statusChanged: [],
             // debug: [],
