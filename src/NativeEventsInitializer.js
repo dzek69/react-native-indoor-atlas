@@ -8,8 +8,9 @@ class NativeEventsInitializer {
     }
 
     increase(count = 1) {
+        const was = this._total;
         this._total += count;
-        if (this._total === 1) {
+        if (was === 0) {
             IndoorAtlas.listen();
         }
     }
