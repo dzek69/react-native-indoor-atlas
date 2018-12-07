@@ -65,7 +65,10 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                         params.putDouble("lat", location.getLatitude());
                         params.putDouble("lng", location.getLongitude());
                         params.putDouble("accuracy", location.getAccuracy());
-                        params.putString("locationName", location.getRegion().getName());
+                        IARegion region = location.getRegion();
+                        if (region != null) {
+                            params.putString("locationName", location.getRegion().getName());
+                        }
                         sendEvent(
                             getReactApplicationContext(), "locationChanged", params
                         );
