@@ -1,7 +1,7 @@
 {
   "name": "react-native-indoor-atlas",
   "description": "Unofficial Indoor Atlas bridge for React Native projects",
-  "version": "0.0.4",
+  "version": "0.1.0-unreleased.1",
   "main": "src/index.js",
   "repository": "https://github.com/dzek69/react-native-indoor-atlas.git",
   "author": "Jacek Nowacki @dzek69 <git-public@dzek.eu>",
