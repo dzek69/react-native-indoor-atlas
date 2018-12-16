@@ -3,6 +3,9 @@ package com.dzek69.indooratlas;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
