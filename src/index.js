@@ -29,6 +29,53 @@ const EVENTS = {
 };
 
 /**
+ * @typedef {number} StatusCode
+ * Indoor Atlas location service status code
+ */
+
+/**
+ * @typedef {Object} StatusList
+ * @property {StatusCode} AVAILABLE - Location service running normally.
+ * @property {StatusCode} CALIBRATION_CHANGED - Calibration Quality Indicator.
+ * @property {StatusCode} LIMITED - Location service is running but with limited accuracy and functionality.
+ * @property {StatusCode} OUT_OF_SERVICE - Location service is not available and the condition is not expected to
+ * resolve itself soon.
+ * @property {StatusCode} TEMPORARILY_UNAVAILABLE - Location service temporarily unavailable.
+ */
+
+/**
+ * @type {StatusList}
+ */
+const STATUS = {
+    AVAILABLE: NativeIndoorAtlas.STATUS_AVAILABLE,
+    CALIBRATION_CHANGED: NativeIndoorAtlas.STATUS_CALIBRATION_CHANGED,
+    LIMITED: NativeIndoorAtlas.STATUS_LIMITED,
+    OUT_OF_SERVICE: NativeIndoorAtlas.STATUS_OUT_OF_SERVICE,
+    TEMPORARILY_UNAVAILABLE: NativeIndoorAtlas.STATUS_TEMPORARILY_UNAVAILABLE,
+};
+
+/**
+ * @typedef {number} CalibrationCode
+ * Indoor Atlas location calibration code
+ */
+
+/**
+ * @typedef {Object} CalibrationCodeList
+ * @property {CalibrationCode} EXCELLENT - Calibration is not required.
+ * @property {CalibrationCode} GOOD - Calibration is acceptable, but recommended.
+ * @property {CalibrationCode} POOR - Calibration is required.
+ */
+
+/**
+ * @type {CalibrationCodeList}
+ */
+const CALIBRATION = {
+    EXCELLENT: NativeIndoorAtlas.CALIBRATION_EXCELLENT,
+    GOOD: NativeIndoorAtlas.CALIBRATION_GOOD,
+    POOR: NativeIndoorAtlas.CALIBRATION_POOR,
+};
+
+/**
  * Indoor Atlas events handling class
  */
 class IndoorAtlas {
@@ -127,4 +174,6 @@ class IndoorAtlas {
 export default IndoorAtlas;
 export {
     EVENTS,
+    STATUS,
+    CALIBRATION,
 };

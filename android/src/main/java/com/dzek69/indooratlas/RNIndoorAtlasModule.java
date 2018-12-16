@@ -111,7 +111,21 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
     }
 
     @Override
-    public String getName() {
-        return "IndoorAtlas";
+    public String getName()
+
+    @Override
+    public Map<String, Object> getConstants() {
+        final Map<String, Object> constants = new HashMap<>();
+        constants.put("STATUS_AVAILABLE", IALocationManager.STATUS_AVAILABLE);
+        constants.put("STATUS_CALIBRATION_CHANGED", IALocationManager.STATUS_CALIBRATION_CHANGED);
+        constants.put("STATUS_LIMITED", IALocationManager.STATUS_LIMITED);
+        constants.put("STATUS_OUT_OF_SERVICE", IALocationManager.STATUS_OUT_OF_SERVICE);
+        constants.put("STATUS_TEMPORARILY_UNAVAILABLE",
+            IALocationManager.STATUS_TEMPORARILY_UNAVAILABLE
+        );
+        constants.put("CALIBRATION_EXCELLENT", IALocationManager.CALIBRATION_EXCELLENT);
+        constants.put("CALIBRATION_GOOD", IALocationManager.CALIBRATION_GOOD);
+        constants.put("CALIBRATION_POOR", IALocationManager.CALIBRATION_POOR);
+        return constants;
     }
 }
