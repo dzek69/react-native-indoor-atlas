@@ -111,7 +111,9 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
     }
 
     @Override
-    public String getName()
+    public String getName() {
+        return "IndoorAtlas";
+    }
 
     @Override
     public Map<String, Object> getConstants() {
