@@ -8,6 +8,8 @@ const NOT_FOUND = -1;
 
 const LOCATION_CHANGED = "locationChanged";
 const STATUS_CHANGED = "statusChanged";
+const REGION_ENTER = "regionEnter";
+const REGION_EXIT = "regionExit";
 
 /**
  * @typedef {string} EventName
@@ -16,8 +18,10 @@ const STATUS_CHANGED = "statusChanged";
 
 /**
  * @typedef {Object} EventsList
- * @property {EventName} LOCATION_CHANGED - user location changed evenet
- * @property {EventName} STATUS_CHANGED - IA connection status changed evenet
+ * @property {EventName} LOCATION_CHANGED - user location changed event
+ * @property {EventName} STATUS_CHANGED - IA connection status changed event
+ * @property {EventName} REGION_ENTER - user entered new region
+ * @property {EventName} REGION_EXIT - user exited a region
  */
 
 /**
@@ -26,6 +30,8 @@ const STATUS_CHANGED = "statusChanged";
 const EVENTS = {
     LOCATION_CHANGED,
     STATUS_CHANGED,
+    REGION_ENTER,
+    REGION_EXIT,
 };
 
 /**

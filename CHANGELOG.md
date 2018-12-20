@@ -6,9 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Added
 - exposed location service status codes and calibration codes constants
+- regionEnter event, with a lot of floor map data
+- regionExit event
 
 ### Changed
 - internal code cleanup (easier to add new events)
+- updated IndoorAtlas Android module to 2.9.0
+
+### Removed
+- returning region name on `locationChanged`
 
 ## [0.0.4] 2018-12-07
 ### Fixed

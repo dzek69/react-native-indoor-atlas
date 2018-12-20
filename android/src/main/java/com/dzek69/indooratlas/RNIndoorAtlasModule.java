@@ -21,11 +21,14 @@ import com.indooratlas.android.sdk.IALocationListener;
 import com.indooratlas.android.sdk.IALocationManager;
 import com.indooratlas.android.sdk.IALocationRequest;
 import com.indooratlas.android.sdk.IARegion;
+import com.indooratlas.android.sdk.resources.IAFloorPlan;
+import com.indooratlas.android.sdk.resources.IALatLng;
 
 public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
     // @TODO expose status constants
     private IALocationManager locationManager;
     private IALocationListener locationListener;
+    private IARegion.Listener regionListener;
     private boolean listening;
 
     public RNIndoorAtlasModule(ReactApplicationContext reactContext) {
@@ -65,13 +68,11 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                     public void onLocationChanged(IALocation location) {
                         // sendDebugMessage("changed");
                         WritableMap params = Arguments.createMap();
+
                         params.putDouble("lat", location.getLatitude());
                         params.putDouble("lng", location.getLongitude());
                         params.putDouble("accuracy", location.getAccuracy());
-                        IARegion region = location.getRegion();
-                        if (region != null) {
-                            params.putString("locationName", location.getRegion().getName());
-                        }
+
                         sendEvent(
                             getReactApplicationContext(), "locationChanged", params
                         );
@@ -85,8 +86,82 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                     }
                 };
 
+                regionListener = new IARegion.Listener() {
+                    @Override
+                    public void onEnterRegion(IARegion iaRegion) {
+                        WritableMap regionMap = Arguments.createMap();
+
+                        regionMap.putString("id", iaRegion.getId());
+                        regionMap.putString("name", iaRegion.getName());
+
+                        IAFloorPlan floorPlan = iaRegion.getFloorPlan();
+                        if (floorPlan != null) {
+                            WritableMap floorMap = Arguments.createMap();
+                            WritableMap floorPointsMap = Arguments.createMap();
+
+                            IALatLng bottomLeft = floorPlan.getBottomLeft();
+                            if (bottomLeft != null) {
+                                WritableMap bottomLeftMap = Arguments.createMap();
+                                bottomLeftMap.putDouble("lat", bottomLeft.latitude);
+                                bottomLeftMap.putDouble("lng", bottomLeft.longitude);
+                                floorPointsMap.putMap("bottomLeft", bottomLeftMap);
+                            }
+
+                            IALatLng topRight = floorPlan.getTopRight();
+                            if (topRight != null) {
+                                WritableMap topRightMap = Arguments.createMap();
+                                topRightMap.putDouble("lat", topRight.latitude);
+                                topRightMap.putDouble("lng", topRight.longitude);
+                                floorPointsMap.putMap("topRight", topRightMap);
+                            }
+
+                            IALatLng topLeft = floorPlan.getTopLeft();
+                            if (topLeft != null) {
+                                WritableMap topLeftMap = Arguments.createMap();
+                                topLeftMap.putDouble("lat", topLeft.latitude);
+                                topLeftMap.putDouble("lng", topLeft.longitude);
+                                floorPointsMap.putMap("topLeft", topLeftMap);
+                            }
+
+                            IALatLng center = floorPlan.getCenter();
+                            if (center != null) {
+                                WritableMap centerMap = Arguments.createMap();
+                                centerMap.putDouble("lat", center.latitude);
+                                centerMap.putDouble("lng", center.longitude);
+                                floorPointsMap.putMap("center", centerMap);
+                            }
+
+                            floorMap.putMap("points", floorPointsMap);
+                            floorMap.putString("url", floorPlan.getUrl());
+                            floorMap.putDouble("bearing", floorPlan.getBearing());
+                            floorMap.putDouble("bitmapHeight", floorPlan.getBitmapHeight());
+                            floorMap.putDouble("bitmapWidth", floorPlan.getBitmapWidth());
+
+                            floorMap.putInt("floorLevel", floorPlan.getFloorLevel());
+                            floorMap.putDouble("metersToPixels", floorPlan.getMetersToPixels());
+                            floorMap.putDouble("pixelsToMeters", floorPlan.getPixelsToMeters());
+
+                            regionMap.putMap("floor", floorMap);
+                        }
+
+                        sendEvent(getReactApplicationContext(), "regionEnter", regionMap);
+                    }
+
+                    @Override
+                    public void onExitRegion(IARegion iaRegion) {
+                        String id = iaRegion.getId();
+                        WritableMap params = Arguments.createMap();
+                        params.putString("id", id);
+                        sendEvent(getReactApplicationContext(), "regionExit", params);
+                    }
+                };
+
                 locationManager.requestLocationUpdates(
                     IALocationRequest.create(), locationListener
+                );
+
+                locationManager.registerRegionListener(
+                    regionListener
                 );
             }
         };
