@@ -86,8 +86,8 @@ class IndoorAtlas {
         this._listeners = {
             // debug: [],
         };
-        for (const name in EVENTS) { // eslint-disable-line guard-for-in
-            this._listeners[name] = [];
+        for (const key in EVENTS) { // eslint-disable-line guard-for-in
+            this._listeners[EVENTS[key]] = [];
         }
 
         this.on = this.addListener;
