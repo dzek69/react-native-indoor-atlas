@@ -33,6 +33,7 @@ implementation "com.indooratlas.android:indooratlas-android-sdk:2.8.3"
 
 ## Usage
 
+(Note: Documentation is currently a bit out of date)
 Refer to [documentation](https://dzek69.github.io/react-native-indoor-atlas/) and
 [usage examples](https://dzek69.github.io/react-native-indoor-atlas/tutorial-Usage.html).
 

@@ -72,6 +72,10 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                         params.putDouble("lat", location.getLatitude());
                         params.putDouble("lng", location.getLongitude());
                         params.putDouble("accuracy", location.getAccuracy());
+                        params.putDouble("altitude", location.getAltitude());
+                        params.putInt("floorLevel", location.getFloorLevel());
+                        params.putDouble("floorCertainty", location.getFloorCertainty());
+                        params.putDouble("bearing", location.getBearing());
 
                         sendEvent(
                             getReactApplicationContext(), "locationChanged", params
@@ -79,9 +83,13 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                     }
 
                     @Override
-                    public void onStatusChanged(String s, int code, Bundle bundle) {
+                    public void onStatusChanged(String s, int code, Bundle extra) {
                         WritableMap params = Arguments.createMap();
                         params.putDouble("status", code);
+                        if (code == IALocationManager.STATUS_CALIBRATION_CHANGED) {
+                            int quality = extra.getInt("quality");
+                            params.putInt("quality", quality);
+                        }
                         sendEvent(getReactApplicationContext(), "statusChanged", params);
                     }
                 };
