@@ -177,9 +177,12 @@ class IndoorAtlas {
     }
 }
 
+const getPointFromCoordinate = NativeIndoorAtlas.getPointFromCoordinate;
+
 export default IndoorAtlas;
 export {
     EVENTS,
     STATUS,
     CALIBRATION,
+    getPointFromCoordinate,
 };

@@ -2,6 +2,7 @@ package com.dzek69.indooratlas;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.graphics.PointF;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,10 +10,10 @@ import java.util.Map;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Promise;
 
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
@@ -25,10 +26,10 @@ import com.indooratlas.android.sdk.resources.IAFloorPlan;
 import com.indooratlas.android.sdk.resources.IALatLng;
 
 public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
-    // @TODO expose status constants
     private IALocationManager locationManager;
     private IALocationListener locationListener;
     private IARegion.Listener regionListener;
+    private IAFloorPlan floorPlan;
     private boolean listening;
 
     public RNIndoorAtlasModule(ReactApplicationContext reactContext) {
@@ -45,6 +46,30 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
         WritableMap params = Arguments.createMap();
         params.putString("message", message);
         sendEvent(getReactApplicationContext(), "debug", params);
+    }
+
+    @ReactMethod
+    public void getPointFromCoordinate(String id, double lat, double lng, Promise promise) {
+        if (floorPlan == null) {
+            promise.reject("UNKNOWN_REGION", "No floor plan.");
+            return;
+        }
+        String currentId = floorPlan.getId();
+        if (!currentId.equals(id)) {
+            promise.reject(
+                "REGION_CHANGED",
+                "Region has changed, current: " + currentId + ", given: " + id
+            );
+            return;
+        }
+
+        IALatLng location = new IALatLng(lat, lng);
+        PointF point = floorPlan.coordinateToPoint(location);
+
+        WritableMap params = Arguments.createMap();
+        params.putDouble("x", point.x);
+        params.putDouble("y", point.y);
+        promise.resolve(params);
     }
 
     @ReactMethod
@@ -102,7 +127,7 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                         regionMap.putString("id", iaRegion.getId());
                         regionMap.putString("name", iaRegion.getName());
 
-                        IAFloorPlan floorPlan = iaRegion.getFloorPlan();
+                        floorPlan = iaRegion.getFloorPlan();
                         if (floorPlan != null) {
                             WritableMap floorMap = Arguments.createMap();
                             WritableMap floorPointsMap = Arguments.createMap();
@@ -140,6 +165,7 @@ public class RNIndoorAtlasModule extends ReactContextBaseJavaModule {
                             }
 
                             floorMap.putMap("points", floorPointsMap);
+                            floorMap.putString("id", floorPlan.getId());
                             floorMap.putString("url", floorPlan.getUrl());
                             floorMap.putDouble("bearing", floorPlan.getBearing());
                             floorMap.putDouble("bitmapHeight", floorPlan.getBitmapHeight());
